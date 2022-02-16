@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Andreeva Maria](https://up.htmlacademy.ru/javascript/25/user/2002553).
-* Наставник: `Неизвестно`.
+* Наставник: [Ксения Гарпушкина](https://htmlacademy.ru/profile/id1883933).
 
 ---
 
