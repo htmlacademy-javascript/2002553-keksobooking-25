@@ -2,22 +2,22 @@
 
 function getRandomIntNumber(min, max) {
   if (min < 0 || max < 0 || max <= min) {
-    return 0;
+    return null;
   }
 
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 getRandomIntNumber(67, 132);
 
-function getRandomNumber(min, max, accuracy) {
+function getRandomFloatNumber(min, max, accuracy) {
   if (min < 0 || max < 0 || max <= min) {
-    return 0;
+    return null;
   }
 
   const randomNumber = Math.random() * (max - min) + min;
 
-  return randomNumber.toFixed(accuracy);
+  return parseFloat(randomNumber.toFixed(accuracy));
 }
 
-getRandomNumber(87, 398, 6);
+getRandomFloatNumber(87, 398, 6);
