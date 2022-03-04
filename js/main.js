@@ -39,13 +39,11 @@ const createAdvertisement = () => {
   return {
     author: {
       avatar:
-        'img/avatars/user' +
-        IMAGE_NUMBERS[getRandomIntNumber(0, IMAGE_NUMBERS.length - 1)] +
-        '.png',
+        `img/avatars/user${IMAGE_NUMBERS[getRandomIntNumber(0, IMAGE_NUMBERS.length - 1)]}.png`,
     },
     offer: {
       title: 'title',
-      address: '' + location.lat + ',' + location.lng,
+      address: `${location.lat},${location.lng}`,
       price: getRandomIntNumber(1, 10000000),
       type: TYPE[getRandomIntNumber(0, TYPE.length - 1)],
       rooms: getRandomIntNumber(1, 10),
@@ -78,6 +76,5 @@ function getRandomFloatNumber(min, max, accuracy) {
   return parseFloat(randomNumber.toFixed(accuracy));
 }
 
-const similarAdvertisements = Array.from({ length: 10 }, createAdvertisement);
+Array.from({ length: 10 }, createAdvertisement);
 
-console.log(similarAdvertisements);
