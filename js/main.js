@@ -1,4 +1,4 @@
-const FEARURES = [
+const FEATURES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -32,27 +32,27 @@ const IMAGE_NUMBERS = [
 
 const createAdvertisement = () => {
   const location = {
-    lat: getRandomFloatNumber(35.65, 35.7),
-    lng: getRandomFloatNumber(139.7, 139.8),
+    lat: getRandomFloatNumber(35.65, 35.7, 5),
+    lng: getRandomFloatNumber(139.7, 139.8, 5),
   };
 
   return {
     author: {
       avatar:
-        `img/avatars/user${IMAGE_NUMBERS[getRandomIntNumber(0, IMAGE_NUMBERS.length - 1)]}.png`,
+        `img/avatars/user${getRandomValuesFromArrayNoRepeat(IMAGE_NUMBERS, 1)[0]}.png`,
     },
     offer: {
       title: 'title',
-      address: `${location.lat},${location.lng}`,
+      address: `${location.lat}, ${location.lng}`,
       price: getRandomIntNumber(1, 10000000),
       type: TYPE[getRandomIntNumber(0, TYPE.length - 1)],
       rooms: getRandomIntNumber(1, 10),
       guests: getRandomIntNumber(1, 30),
       checkin: TIMES[getRandomIntNumber(0, TIMES.length - 1)],
       checkout: TIMES[getRandomIntNumber(0, TIMES.length - 1)],
-      features: FEARURES[getRandomIntNumber(0, FEARURES.length - 1)],
+      features: getRandomValuesFromArrayNoRepeat(FEATURES.slice(), getRandomIntNumber(1, FEATURES.length - 1)),
       description: 'description',
-      photos: PHOTOS[getRandomIntNumber(0, PHOTOS.length - 1)],
+      photos: getRandomValuesFromArrayNoRepeat(PHOTOS.slice(), getRandomIntNumber(1, PHOTOS.length - 1)),
       location,
     },
   };
@@ -76,5 +76,20 @@ function getRandomFloatNumber(min, max, accuracy) {
   return parseFloat(randomNumber.toFixed(accuracy));
 }
 
-Array.from({ length: 10 }, createAdvertisement);
+function getRandomValuesFromArrayNoRepeat(arr, quantity) {
+  const randomArr = [];
 
+  if (arr.length < quantity) {
+    return null;
+  }
+
+  for (let i = 0; i < quantity; i++) {
+    const elem = arr.splice(getRandomIntNumber(0, arr.length - 1), 1);
+    randomArr.push(elem);
+  }
+
+  return randomArr;
+}
+
+
+Array.from({ length: 10 }, createAdvertisement);
