@@ -76,19 +76,19 @@ function getRandomFloatNumber(min, max, accuracy) {
   return parseFloat(randomNumber.toFixed(accuracy));
 }
 
-function getRandomValuesFromArrayNoRepeat(arr, quantity) {
-  const randomArr = [];
+function getRandomValuesFromArrayNoRepeat(source, quantity) {
+  const randomValues = [];
 
-  if (arr.length < quantity) {
+  if (source.length < quantity) {
     return null;
   }
 
   for (let i = 0; i < quantity; i++) {
-    const elem = arr.splice(getRandomIntNumber(0, arr.length - 1), 1);
-    randomArr.push(elem);
+    const elements = source.splice(getRandomIntNumber(0, source.length - 1), 1);
+    randomValues.push(elements[0]);
   }
 
-  return randomArr;
+  return randomValues;
 }
 
 
