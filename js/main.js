@@ -1,8 +1,4 @@
-import {FEATURES} from './data.js';
-import {PHOTOS} from './data.js';
-import {TYPE} from './data.js';
-import {TIMES} from './data.js';
-import {IMAGE_NUMBERS} from './data.js';
+import {FEATURES, PHOTOS, TYPES, TIMES, IMAGE_NUMBERS} from './data.js';
 import {getRandomIntNumber} from './util.js';
 import {getRandomFloatNumber} from './util.js';
 import {getRandomValuesFromArrayNoRepeat} from './util.js';
@@ -23,7 +19,7 @@ const createAdvertisement = () => {
       title: 'title',
       address: `${location.lat}, ${location.lng}`,
       price: getRandomIntNumber(1, 10000000),
-      type: TYPE[getRandomIntNumber(0, TYPE.length - 1)],
+      type: TYPES[getRandomIntNumber(0, TYPES.length - 1)],
       rooms: getRandomIntNumber(1, 10),
       guests: getRandomIntNumber(1, 30),
       checkin: TIMES[getRandomIntNumber(0, TIMES.length - 1)],

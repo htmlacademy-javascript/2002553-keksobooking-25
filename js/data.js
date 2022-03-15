@@ -13,7 +13,7 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const TYPE = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
 const TIMES = ['12:00', '13:00', '14:00'];
 
@@ -30,8 +30,4 @@ const IMAGE_NUMBERS = [
   '10',
 ];
 
-export {FEATURES};
-export {PHOTOS};
-export {TYPE};
-export {TIMES};
-export {IMAGE_NUMBERS};
+export {FEATURES, PHOTOS, TYPES, TIMES, IMAGE_NUMBERS};
