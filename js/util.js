@@ -31,6 +31,5 @@ function getRandomValuesFromArrayNoRepeat(source, quantity) {
   return randomValues;
 }
 
-export {getRandomIntNumber};
-export {getRandomFloatNumber};
-export {getRandomValuesFromArrayNoRepeat};
+export {getRandomIntNumber, getRandomFloatNumber, getRandomValuesFromArrayNoRepeat};
+

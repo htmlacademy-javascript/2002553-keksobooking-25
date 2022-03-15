@@ -1,8 +1,5 @@
 import {FEATURES, PHOTOS, TYPES, TIMES, IMAGE_NUMBERS} from './data.js';
-import {getRandomIntNumber} from './util.js';
-import {getRandomFloatNumber} from './util.js';
-import {getRandomValuesFromArrayNoRepeat} from './util.js';
-
+import {getRandomIntNumber, getRandomFloatNumber, getRandomValuesFromArrayNoRepeat} from './util.js';
 
 const createAdvertisement = () => {
   const location = {
