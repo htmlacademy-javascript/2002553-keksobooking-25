@@ -31,5 +31,28 @@ function getRandomValuesFromArrayNoRepeat(source, quantity) {
   return randomValues;
 }
 
-export {getRandomIntNumber, getRandomFloatNumber, getRandomValuesFromArrayNoRepeat};
+function fillNodeTextContentOrHide(element, classname, content, template = '') {
+  let isValid = true;
+  const targetElement = element.querySelector(classname);
+
+  if (Array.isArray(content)) {
+    content.forEach((value) => {
+      if (!value) {
+        isValid = false;
+      }
+    });
+  } else if (!content) {
+    isValid = false;
+  }
+
+  if (isValid) {
+    targetElement.textContent = template ? template : content;
+  } else {
+    targetElement.classList.add('hidden');
+  }
+
+
+}
+
+export {getRandomIntNumber, getRandomFloatNumber, getRandomValuesFromArrayNoRepeat, fillNodeTextContentOrHide};
 

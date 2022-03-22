@@ -29,5 +29,6 @@ const createAdvertisement = () => {
   };
 };
 
-const createAdvertisements = () => Array.from({ length: 10 }, createAdvertisement);
-createAdvertisements();
+const createAdvertisements = () => Array.from({ length: 1 }, createAdvertisement);
+
+export {createAdvertisements};
