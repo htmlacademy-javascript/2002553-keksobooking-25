@@ -31,5 +31,18 @@ function getRandomValuesFromArrayNoRepeat(source, quantity) {
   return randomValues;
 }
 
-export {getRandomIntNumber, getRandomFloatNumber, getRandomValuesFromArrayNoRepeat};
+function fillNodeTextContentOrHide(element, classname, content = [], template = '') {
+  const targetElement = element.querySelector(classname);
+
+  for (let i = 0; i < content.length; i++) {
+    if (!content[i]) {
+      targetElement.classList.add('hidden');
+      return;
+    }
+    targetElement.textContent = template ? template : content;
+  }
+
+}
+
+export {getRandomIntNumber, getRandomFloatNumber, getRandomValuesFromArrayNoRepeat, fillNodeTextContentOrHide};
 
