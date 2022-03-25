@@ -30,4 +30,23 @@ const IMAGE_NUMBERS = [
   '10',
 ];
 
+const PROPERTY_NAMES = {
+  'flat' : 'Квартира',
+  'bungalow' : 'Бунгало',
+  'house' : 'Дом',
+  'palace' : 'Дворец',
+  'hotel' : 'Отель',
+};
+
+const FEATURES_ICONS = {
+  'wifi' : 'popup__feature--wifi',
+  'dishwasher' : 'popup__feature--dishwasher',
+  'parking' : 'popup__feature--parking',
+  'washer' : 'popup__feature--washer',
+  'elevator' : 'popup__feature--elevator',
+  'conditioner' : 'popup__feature--conditioner',
+};
+
 export {FEATURES, PHOTOS, TYPES, TIMES, IMAGE_NUMBERS};
+export {PROPERTY_NAMES, FEATURES_ICONS};
+

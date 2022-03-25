@@ -39,6 +39,9 @@ function fillNodeTextContentOrHide(element, classname, content, template = '') {
     content.forEach((value) => {
       if (!value) {
         isValid = false;
+
+        // eslint-disable-next-line no-useless-return
+        return;
       }
     });
   } else if (!content) {
