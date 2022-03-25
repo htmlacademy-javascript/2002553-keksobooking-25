@@ -1,4 +1,4 @@
-import {FEATURES, PHOTOS, TYPES, TIMES, IMAGE_NUMBERS, LATITUDE_FROM, LATITUDE_UNTIL, LONGITUDE_FROM, LONGITUDE_UNTIL, ROOMS, GUESTS} from './data.js';
+import {FEATURES, PHOTOS, TYPES, TIMES, IMAGE_NUMBERS, LATITUDE_FROM, LATITUDE_UNTIL, PRICE_MAX, LONGITUDE_FROM, LONGITUDE_UNTIL, ROOMS_MAX_COUNT, GUESTS_MAX_COUNT} from './data.js';
 import {getRandomIntNumber, getRandomFloatNumber, getRandomValuesFromArrayNoRepeat} from './util.js';
 
 const createAdvertisement = () => {
@@ -15,10 +15,10 @@ const createAdvertisement = () => {
     offer: {
       title: 'title',
       address: `${location.lat}, ${location.lng}`,
-      price: getRandomIntNumber(1, 10000000),
+      price: getRandomIntNumber(1, PRICE_MAX),
       type: TYPES[getRandomIntNumber(0, TYPES.length - 1)],
-      rooms: getRandomIntNumber(1, ROOMS),
-      guests: getRandomIntNumber(1, GUESTS),
+      rooms: getRandomIntNumber(1, ROOMS_MAX_COUNT),
+      guests: getRandomIntNumber(1, GUESTS_MAX_COUNT),
       checkin: TIMES[getRandomIntNumber(0, TIMES.length - 1)],
       checkout: TIMES[getRandomIntNumber(0, TIMES.length - 1)],
       features: getRandomValuesFromArrayNoRepeat(FEATURES.slice(), getRandomIntNumber(1, FEATURES.length - 1)),

@@ -32,21 +32,14 @@ function getRandomValuesFromArrayNoRepeat(source, quantity) {
 }
 
 function fillNodeTextContentOrHide(element, classname, content = [], template = '') {
-  let isValid = true;
   const targetElement = element.querySelector(classname);
 
   for (let i = 0; i < content.length; i++) {
     if (!content[i]) {
-      isValid = false;
-
+      targetElement.classList.add('hidden');
       return;
     }
-  }
-
-  if (isValid) {
     targetElement.textContent = template ? template : content;
-  } else {
-    targetElement.classList.add('hidden');
   }
 
 }
