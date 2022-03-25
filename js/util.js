@@ -31,21 +31,16 @@ function getRandomValuesFromArrayNoRepeat(source, quantity) {
   return randomValues;
 }
 
-function fillNodeTextContentOrHide(element, classname, content, template = '') {
+function fillNodeTextContentOrHide(element, classname, content = [], template = '') {
   let isValid = true;
   const targetElement = element.querySelector(classname);
 
-  if (Array.isArray(content)) {
-    content.forEach((value) => {
-      if (!value) {
-        isValid = false;
+  for (let i = 0; i < content.length; i++) {
+    if (!content[i]) {
+      isValid = false;
 
-        // eslint-disable-next-line no-useless-return
-        return;
-      }
-    });
-  } else if (!content) {
-    isValid = false;
+      return;
+    }
   }
 
   if (isValid) {
@@ -53,7 +48,6 @@ function fillNodeTextContentOrHide(element, classname, content, template = '') {
   } else {
     targetElement.classList.add('hidden');
   }
-
 
 }
 
