@@ -1,7 +1,7 @@
 
 //Активное состояние
 // eslint-disable-next-line no-unused-vars
-const toActiveState = () => {
+const setActiveState = () => {
   const formElement = document.querySelector('.ad-form');
   formElement.classList.remove('ad-form--disabled');
 
@@ -29,7 +29,7 @@ const toActiveState = () => {
 
 //Неактивное состояние
 // eslint-disable-next-line no-unused-vars
-const toBlockedState = () => {
+const setInactiveState = () => {
   const formElement = document.querySelector('.ad-form');
   formElement.classList.add('ad-form--disabled');
 
