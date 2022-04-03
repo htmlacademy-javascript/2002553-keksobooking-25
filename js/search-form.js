@@ -53,3 +53,43 @@ searchForm.addEventListener('submit', (evt) => {
     console.log('Форма невалидна');
   }
 });
+
+//синхронизация заезда и выезда
+searchForm.querySelector('#timein').addEventListener('change', (evt) => {
+  searchForm.querySelector('#timeout').value = evt.target.value;
+});
+searchForm.querySelector('#timeout').addEventListener('change', (evt) => {
+  searchForm.querySelector('#timein').value = evt.target.value;
+});
+
+//плейсхолдер+минимальная цена от типа жилья
+const typeField = searchForm.querySelector('#type');
+const priceField = searchForm.querySelector('#price');
+
+const typesHousing = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+
+function validateMinPrice (value) {
+  return typesHousing[typeField.value] <= value;
+}
+
+function getMinPriceErrorMessage () {
+  return `min price is ${typesHousing[typeField.value]}`;
+}
+
+pristine.addValidator(
+  priceField,
+  validateMinPrice,
+  getMinPriceErrorMessage
+);
+
+typeField.addEventListener('change', () => {
+  priceField.placeholder = typesHousing[typeField.value];
+  pristine.validate(priceField);
+});
+
