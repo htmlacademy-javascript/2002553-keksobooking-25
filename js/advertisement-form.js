@@ -1,11 +1,15 @@
-const searchForm = document.querySelector('.ad-form');
-const pristine = new Pristine(searchForm, {
+const advertisementForm = document.querySelector('.ad-form');
+const pristine = new Pristine(advertisementForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
 });
 
-const capacityField = searchForm.querySelector('#capacity');
-const roomNumberField = searchForm.querySelector('#room_number');
+const capacityField = advertisementForm.querySelector('#capacity');
+const roomNumberField = advertisementForm.querySelector('#room_number');
+const timeinField = advertisementForm.querySelector('#timein');
+const timeoutField = advertisementForm.querySelector('#timeout');
+const typeField = advertisementForm.querySelector('#type');
+const priceField = advertisementForm.querySelector('#price');
 
 const maxCapacity = {
   '1': ['1'],
@@ -19,6 +23,14 @@ const maxCapacityErrorMessage = {
   '2': 'for 1-2 guests',
   '3': 'for 1-3 guests',
   '100': 'not for guests'
+};
+
+const housingPrices = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
 };
 
 function validateCapacity (value) {
@@ -41,45 +53,31 @@ function onRoomNumberChange () {
 
 roomNumberField.addEventListener('change', onRoomNumberChange);
 
-searchForm.addEventListener('submit', (evt) => {
+advertisementForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
 
   if (isValid) {
-    searchForm.submit();
-  } else {
-    // eslint-disable-next-line no-console
-    console.log('Форма невалидна');
+    advertisementForm.submit();
   }
 });
 
 //синхронизация заезда и выезда
-searchForm.querySelector('#timein').addEventListener('change', (evt) => {
-  searchForm.querySelector('#timeout').value = evt.target.value;
+timeinField.addEventListener('change', (evt) => {
+  timeoutField.value = evt.target.value;
 });
-searchForm.querySelector('#timeout').addEventListener('change', (evt) => {
-  searchForm.querySelector('#timein').value = evt.target.value;
+timeoutField.addEventListener('change', (evt) => {
+  timeinField.value = evt.target.value;
 });
 
 //плейсхолдер+минимальная цена от типа жилья
-const typeField = searchForm.querySelector('#type');
-const priceField = searchForm.querySelector('#price');
-
-const typesHousing = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000
-};
-
 function validateMinPrice (value) {
-  return typesHousing[typeField.value] <= value;
+  return housingPrices[typeField.value] <= value;
 }
 
 function getMinPriceErrorMessage () {
-  return `min price is ${typesHousing[typeField.value]}`;
+  return `min price is ${housingPrices[typeField.value]}`;
 }
 
 pristine.addValidator(
@@ -89,7 +87,7 @@ pristine.addValidator(
 );
 
 typeField.addEventListener('change', () => {
-  priceField.placeholder = typesHousing[typeField.value];
+  priceField.placeholder = housingPrices[typeField.value];
   pristine.validate(priceField);
 });
 
