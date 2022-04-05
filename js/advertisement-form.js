@@ -33,6 +33,7 @@ const housingPrices = {
   'palace': 10000
 };
 
+//валидация количества гостей и комнат
 function validateCapacity (value) {
   return maxCapacity[roomNumberField.value].includes(value);
 }
