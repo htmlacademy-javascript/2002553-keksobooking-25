@@ -2,14 +2,10 @@ import {createAdvertisements} from './advertisement.js';
 import {fillNodeTextContentOrHide} from './util.js';
 import {PROPERTY_NAMES, FEATURES_ICONS} from './data.js';
 
-const mapElement = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
 const cards = createAdvertisements();
 
-const mapFragment = document.createDocumentFragment();
-
-cards.forEach(({offer, author}) => {
+const getCardNode = (offer, author) => {
   const cardElement = cardTemplate.cloneNode(true);
   const popupFeatures = cardElement.querySelector('.popup__features');
 
@@ -45,7 +41,7 @@ cards.forEach(({offer, author}) => {
 
   cardElement.querySelector('.popup__avatar').src = author.avatar;
 
-  mapFragment.appendChild(cardElement);
-});
+  return cardElement;
+};
 
-mapElement.appendChild(mapFragment);
+export {cards, getCardNode};

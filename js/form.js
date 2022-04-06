@@ -55,3 +55,5 @@ const setInactiveState = () => {
   });
 };
 
+export {setActiveState};
+
