@@ -2,14 +2,10 @@ import {createAdvertisements} from './advertisement.js';
 import {fillNodeTextContentOrHide} from './util.js';
 import {PROPERTY_NAMES, FEATURES_ICONS} from './data.js';
 
-const mapElement = document.querySelector('.map__canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
 const cards = createAdvertisements();
 
-const mapFragment = document.createDocumentFragment();
-
-cards.forEach(({offer, author}) => {
+const getCardNode = (offer, author) => {
   const cardElement = cardTemplate.cloneNode(true);
   const popupFeatures = cardElement.querySelector('.popup__features');
 
@@ -20,6 +16,7 @@ cards.forEach(({offer, author}) => {
   fillNodeTextContentOrHide(cardElement, '.popup__text--capacity', [offer.rooms, offer.guests], `${offer.rooms} комнаты для ${offer.guests} гостей`);
   fillNodeTextContentOrHide(cardElement, '.popup__text--time', [offer.checkin, offer.checkout],`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
   fillNodeTextContentOrHide(cardElement, '.popup__description', [offer.description]);
+  fillNodeTextContentOrHide(cardElement, '.popup__avatar', [author.avatar]);
 
   const featureElements = cardElement.querySelectorAll('.popup__feature');
   for(let i = 0; i < featureElements.length; i++) {
@@ -43,9 +40,7 @@ cards.forEach(({offer, author}) => {
   });
   photoElement.classList.add('hidden');
 
-  cardElement.querySelector('.popup__avatar').src = author.avatar;
+  return cardElement;
+};
 
-  mapFragment.appendChild(cardElement);
-});
-
-mapElement.appendChild(mapFragment);
+export {cards, getCardNode};
