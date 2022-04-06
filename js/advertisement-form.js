@@ -11,6 +11,10 @@ const timeoutField = advertisementForm.querySelector('#timeout');
 const typeField = advertisementForm.querySelector('#type');
 const priceField = advertisementForm.querySelector('#price');
 
+//слайдер для цены
+const sliderElement = document.querySelector('.ad-form__slider');
+const valueElement = document.querySelector('#price');
+
 const maxCapacity = {
   '1': ['1'],
   '2': ['1', '2'],
@@ -32,6 +36,12 @@ const housingPrices = {
   'house': 5000,
   'palace': 10000
 };
+
+const MIN_PRICE = 0;
+const MAX_PRICE = 100000;
+const START_SLIDER = 1000;
+const INITIAL_VALUE = 1000;
+
 
 //валидация количества гостей и комнат
 function validateCapacity (value) {
@@ -89,21 +99,24 @@ pristine.addValidator(
 
 typeField.addEventListener('change', () => {
   priceField.placeholder = housingPrices[typeField.value];
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: housingPrices[typeField.value],
+      max: MAX_PRICE
+    },
+    start: START_SLIDER,
+  });
   pristine.validate(priceField);
 });
 
-//слайдер для цены
-const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
-
-valueElement.value = 5000;
+valueElement.value = INITIAL_VALUE;
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: 0,
-    max: 100000,
+    min: MIN_PRICE,
+    max: MAX_PRICE,
   },
-  start: 5000,
+  start: START_SLIDER,
   step: 1,
   connect: 'lower',
   format: {

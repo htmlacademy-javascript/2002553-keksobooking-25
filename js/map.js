@@ -1,13 +1,18 @@
-import {setActiveState} from './form.js';
+import {setActiveState, setInactiveState} from './form.js';
 import {cards, getCardNode} from './template.js';
+
+const LAT_TOKYO = 35.67969;
+const LNG_TOKYO = 139.76851;
+
+setInactiveState();
 
 const map = L.map('map-canvas')
   .on('load', () => {
     setActiveState();
   })
   .setView({
-    lat: 35.67969,
-    lng: 139.76851,
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO,
   }, 10);
 
 L.tileLayer(
@@ -25,8 +30,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.67969,
-    lng: 139.76851,
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO,
   },
   {
     draggable: true,

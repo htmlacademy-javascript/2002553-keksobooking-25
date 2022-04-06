@@ -16,6 +16,7 @@ const getCardNode = (offer, author) => {
   fillNodeTextContentOrHide(cardElement, '.popup__text--capacity', [offer.rooms, offer.guests], `${offer.rooms} комнаты для ${offer.guests} гостей`);
   fillNodeTextContentOrHide(cardElement, '.popup__text--time', [offer.checkin, offer.checkout],`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
   fillNodeTextContentOrHide(cardElement, '.popup__description', [offer.description]);
+  fillNodeTextContentOrHide(cardElement, '.popup__avatar', [author.avatar]);
 
   const featureElements = cardElement.querySelectorAll('.popup__feature');
   for(let i = 0; i < featureElements.length; i++) {
@@ -38,8 +39,6 @@ const getCardNode = (offer, author) => {
     photoBlock.appendChild(newPhotoElement);
   });
   photoElement.classList.add('hidden');
-
-  cardElement.querySelector('.popup__avatar').src = author.avatar;
 
   return cardElement;
 };
