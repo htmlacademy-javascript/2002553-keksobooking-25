@@ -1,9 +1,9 @@
-import {createAdvertisements} from './advertisement.js';
+// import {createAdvertisements} from './advertisement.js';
 import {fillNodeTextContentOrHide} from './util.js';
 import {PROPERTY_NAMES, FEATURES_ICONS} from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-const cards = createAdvertisements();
+// const cards = createAdvertisements();
 
 const getCardNode = (offer, author) => {
   const cardElement = cardTemplate.cloneNode(true);
@@ -23,12 +23,14 @@ const getCardNode = (offer, author) => {
     featureElements[i].classList.add('hidden');
   }
 
-  offer.features.forEach((feature) => {
-    const li = document.createElement('li');
-    li.classList.add('popup__feature');
-    li.classList.add(FEATURES_ICONS[feature]);
-    popupFeatures.appendChild(li);
-  });
+  if (offer.features) {
+    offer.features.forEach((feature) => {
+      const li = document.createElement('li');
+      li.classList.add('popup__feature');
+      li.classList.add(FEATURES_ICONS[feature]);
+      popupFeatures.appendChild(li);
+    });
+  }
 
   const photoBlock = cardElement.querySelector('.popup__photos');
   const photoElement = cardElement.querySelector('.popup__photo');
@@ -43,4 +45,4 @@ const getCardNode = (offer, author) => {
   return cardElement;
 };
 
-export {cards, getCardNode};
+export {getCardNode};

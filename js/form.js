@@ -53,6 +53,5 @@ const setInactiveState = () => {
   });
 };
 
-export {setActiveState};
-export {setInactiveState};
+export {setActiveState, setInactiveState};
 

@@ -1,5 +1,8 @@
 import {setActiveState, setInactiveState} from './form.js';
-import {cards, getCardNode} from './template.js';
+import {getCardNode} from './template.js';
+import {getData} from './api.js';
+
+const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
 const LAT_TOKYO = 35.67969;
 const LNG_TOKYO = 139.76851;
@@ -54,21 +57,23 @@ const simplePinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-cards.forEach(({offer, author}) => {
-  const {lat, lng} = offer.location;
-  const cardNode = getCardNode(offer, author);
+getData((advertisements) => {
+  const activeAdvertisiments = advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT);
 
-  const marker = L.marker({
-    lat,
-    lng
-  },
-  {
-    icon: simplePinIcon
+  activeAdvertisiments.forEach(({offer, author, location}) => {
+    const {lat, lng} = location;
+    const cardNode = getCardNode(offer, author);
+
+    const marker = L.marker({
+      lat,
+      lng
+    },
+    {
+      icon: simplePinIcon
+    });
+
+    marker
+      .addTo(map)
+      .bindPopup(cardNode);
   });
-
-  marker
-    .addTo(map)
-    .bindPopup(cardNode);
 });
-
-

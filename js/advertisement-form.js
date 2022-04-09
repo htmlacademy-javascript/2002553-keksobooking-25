@@ -1,3 +1,5 @@
+import {sendData} from './api.js';
+
 const advertisementForm = document.querySelector('.ad-form');
 const pristine = new Pristine(advertisementForm, {
   classTo: 'ad-form__element',
@@ -10,6 +12,7 @@ const timeinField = advertisementForm.querySelector('#timein');
 const timeoutField = advertisementForm.querySelector('#timeout');
 const typeField = advertisementForm.querySelector('#type');
 const priceField = advertisementForm.querySelector('#price');
+const submitButton = advertisementForm.querySelector('.ad-form__submit');
 
 //слайдер для цены
 const sliderElement = document.querySelector('.ad-form__slider');
@@ -40,7 +43,7 @@ const housingPrices = {
 const MIN_PRICE = 0;
 const MAX_PRICE = 100000;
 const START_SLIDER = 1000;
-const INITIAL_VALUE = 1000;
+const INITIAL_VALUE = 0;
 
 
 //валидация количества гостей и комнат
@@ -64,15 +67,39 @@ function onRoomNumberChange () {
 
 roomNumberField.addEventListener('change', onRoomNumberChange);
 
-advertisementForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
 
-  const isValid = pristine.validate();
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
 
-  if (isValid) {
-    advertisementForm.submit();
-  }
-});
+
+const setUserFormSubmit = (onSuccess, onFail) => {
+  advertisementForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          onFail();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
 
 //синхронизация заезда и выезда
 timeinField.addEventListener('change', (evt) => {
@@ -133,3 +160,13 @@ sliderElement.noUiSlider.on('update', () => {
   valueElement.value = sliderElement.noUiSlider.get();
 });
 
+//кнопка сбросить
+const resetButton = document.querySelector('.ad-form__reset');
+
+resetButton.addEventListener('click', () => {
+  const bindPopupClose = document.querySelector('.leaflet-popup');
+  bindPopupClose.classList.add('hidden');
+});
+
+
+export {setUserFormSubmit};
