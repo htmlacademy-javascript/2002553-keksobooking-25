@@ -77,3 +77,5 @@ getData((advertisements) => {
       .bindPopup(cardNode);
   });
 });
+
+export {map};

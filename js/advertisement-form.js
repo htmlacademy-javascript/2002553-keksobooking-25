@@ -1,4 +1,5 @@
 import {sendData} from './api.js';
+import {map} from './map.js';
 
 const advertisementForm = document.querySelector('.ad-form');
 const pristine = new Pristine(advertisementForm, {
@@ -13,8 +14,6 @@ const timeoutField = advertisementForm.querySelector('#timeout');
 const typeField = advertisementForm.querySelector('#type');
 const priceField = advertisementForm.querySelector('#price');
 const submitButton = advertisementForm.querySelector('.ad-form__submit');
-
-//слайдер для цены
 const sliderElement = document.querySelector('.ad-form__slider');
 const valueElement = document.querySelector('#price');
 
@@ -40,10 +39,9 @@ const housingPrices = {
   'palace': 10000
 };
 
-const MIN_PRICE = 0;
 const MAX_PRICE = 100000;
-const START_SLIDER = 1000;
-const INITIAL_VALUE = 0;
+const START_SLIDER = 0;
+const INITIAL_VALUE = 1000;
 
 
 //валидация количества гостей и комнат
@@ -140,7 +138,7 @@ valueElement.value = INITIAL_VALUE;
 
 noUiSlider.create(sliderElement, {
   range: {
-    min: MIN_PRICE,
+    min: housingPrices[typeField.value],
     max: MAX_PRICE,
   },
   start: START_SLIDER,
@@ -164,8 +162,14 @@ sliderElement.noUiSlider.on('update', () => {
 const resetButton = document.querySelector('.ad-form__reset');
 
 resetButton.addEventListener('click', () => {
-  const bindPopupClose = document.querySelector('.leaflet-popup');
-  bindPopupClose.classList.add('hidden');
+  sliderElement.noUiSlider.updateOptions({
+    start: START_SLIDER,
+  });
+
+});
+
+resetButton.addEventListener('click', () => {
+  map.closePopup();
 });
 
 

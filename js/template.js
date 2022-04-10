@@ -1,9 +1,7 @@
-// import {createAdvertisements} from './advertisement.js';
 import {fillNodeTextContentOrHide} from './util.js';
 import {PROPERTY_NAMES, FEATURES_ICONS} from './data.js';
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-// const cards = createAdvertisements();
 
 const getCardNode = (offer, author) => {
   const cardElement = cardTemplate.cloneNode(true);
