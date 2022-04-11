@@ -1,4 +1,3 @@
-
 //Активное состояние
 const setActiveState = () => {
   const formElement = document.querySelector('.ad-form');

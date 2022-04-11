@@ -12,6 +12,7 @@ setInactiveState();
 const map = L.map('map-canvas')
   .on('load', () => {
     setActiveState();
+
   })
   .setView({
     lat: LAT_TOKYO,
@@ -41,7 +42,6 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-
 mainPinMarker.addTo(map);
 
 const addressField = document.querySelector('.ad-form').querySelector('#address');
@@ -83,4 +83,4 @@ getData((advertisements) => {
   });
 });
 
-export {map, LAT_TOKYO, LNG_TOKYO};
+export {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker};
