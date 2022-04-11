@@ -41,8 +41,6 @@ const housingPrices = {
 
 const MAX_PRICE = 100000;
 const START_SLIDER = 0;
-const INITIAL_VALUE = 1000;
-
 
 //валидация количества гостей и комнат
 function validateCapacity (value) {
@@ -134,8 +132,6 @@ typeField.addEventListener('change', () => {
   pristine.validate(priceField);
 });
 
-valueElement.value = INITIAL_VALUE;
-
 noUiSlider.create(sliderElement, {
   range: {
     min: housingPrices[typeField.value],
@@ -165,7 +161,6 @@ resetButton.addEventListener('click', () => {
   sliderElement.noUiSlider.updateOptions({
     start: START_SLIDER,
   });
-
 });
 
 resetButton.addEventListener('click', () => {
@@ -173,4 +168,4 @@ resetButton.addEventListener('click', () => {
 });
 
 
-export {setUserFormSubmit};
+export {setUserFormSubmit, START_SLIDER, sliderElement};

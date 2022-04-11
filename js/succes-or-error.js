@@ -38,6 +38,7 @@ const onErrorButtonClick = () => {
 };
 
 export const showSuccessMessage = () => {
+  successElement.classList.remove('hidden');
   document.addEventListener('keydown', onEscClickSuccess);
   document.addEventListener('click', onOuterClickSuccess);
 
@@ -45,6 +46,7 @@ export const showSuccessMessage = () => {
 };
 
 export const showErrorMessage = () => {
+  errorElement.classList.remove('hidden');
   errorButtonlClose.addEventListener('click', onErrorButtonClick);
   document.addEventListener('keydown', onEscClickFail);
   document.addEventListener('click', onOuterClickFail);
