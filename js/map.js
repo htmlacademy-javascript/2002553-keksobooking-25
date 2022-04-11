@@ -37,19 +37,19 @@ const mainPinMarker = L.marker(
     lng: LNG_TOKYO,
   },
   {
+    draggable: true,
     icon: mainPinIcon,
   },
 );
 
 mainPinMarker.addTo(map);
 
-// const addressField = document.querySelector('.ad-form').querySelector('#address');
+const addressField = document.querySelector('.ad-form').querySelector('#address');
 
-// mainPinMarker.on('moveend', (evt) => {
-//   const coordinates = evt.target.getLatLng();
-//   console.log('coordinates', coordinates);
-//   addressField.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
-// });
+mainPinMarker.on('moveend', (evt) => {
+  const coordinates = evt.target.getLatLng();
+  addressField.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+});
 
 const simplePinIcon = L.icon({
   iconUrl: './img/pin.svg',
@@ -76,7 +76,6 @@ getData((advertisements) => {
       .addTo(map)
       .bindPopup(cardNode);
 
-    const addressField = document.querySelector('.ad-form').querySelector('#address');
     marker.on('click', (evt) => {
       const coordinates = evt.target.getLatLng();
       addressField.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
@@ -84,4 +83,4 @@ getData((advertisements) => {
   });
 });
 
-export {map};
+export {map, LAT_TOKYO, LNG_TOKYO};

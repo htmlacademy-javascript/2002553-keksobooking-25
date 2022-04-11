@@ -1,5 +1,5 @@
 import {sendData} from './api.js';
-import {map} from './map.js';
+import {map, LAT_TOKYO, LNG_TOKYO} from './map.js';
 
 const advertisementForm = document.querySelector('.ad-form');
 const pristine = new Pristine(advertisementForm, {
@@ -165,6 +165,10 @@ resetButton.addEventListener('click', () => {
 
 resetButton.addEventListener('click', () => {
   map.closePopup();
+  map.setView({
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO,
+  }, 10);
 });
 
 
