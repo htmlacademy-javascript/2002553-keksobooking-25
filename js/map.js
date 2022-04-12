@@ -1,4 +1,4 @@
-import {setActiveState, setInactiveState} from './form.js';
+import {setActiveState, unblockFilters, setInactiveState} from './form.js';
 import {getCardNode} from './template.js';
 import {getData} from './api.js';
 import {initializeFilters} from './map-filters.js';
@@ -16,7 +16,6 @@ setInactiveState();
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    initializeFilters();
     setActiveState();
   })
   .setView({
@@ -101,6 +100,8 @@ const showMapResults = (advertisements) => {
 getData((advertisements) => {
   allAdvertisements = advertisements;
 
+  unblockFilters();
+  initializeFilters();
   showMapResults();
 });
 
