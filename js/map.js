@@ -1,18 +1,23 @@
 import {setActiveState, setInactiveState} from './form.js';
 import {getCardNode} from './template.js';
 import {getData} from './api.js';
+import {initializeFilters} from './map-filters.js';
 
 const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
 const LAT_TOKYO = 35.67969;
 const LNG_TOKYO = 139.76851;
 
+const mapMarkers = [];
+
+let allAdvertisements = [];
+
 setInactiveState();
 
 const map = L.map('map-canvas')
   .on('load', () => {
+    initializeFilters();
     setActiveState();
-
   })
   .setView({
     lat: LAT_TOKYO,
@@ -57,10 +62,18 @@ const simplePinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-getData((advertisements) => {
-  const activeAdvertisiments = advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT);
+const removeSecondaryPins = () => {
+  for (let i = 0; i < mapMarkers.length; i++) {
+    map.removeLayer(mapMarkers[i]);
+  }
+};
 
-  activeAdvertisiments.forEach(({offer, author, location}) => {
+const showMapResults = (advertisements) => {
+  const selectedAdvertisements = advertisements || allAdvertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT);
+
+  removeSecondaryPins();
+
+  selectedAdvertisements.forEach(({offer, author, location}) => {
     const {lat, lng} = location;
     const cardNode = getCardNode(offer, author);
 
@@ -80,7 +93,56 @@ getData((advertisements) => {
       const coordinates = evt.target.getLatLng();
       addressField.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
     });
+
+    mapMarkers.push(marker);
   });
+};
+
+getData((advertisements) => {
+  allAdvertisements = advertisements;
+
+  showMapResults();
 });
 
-export {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker};
+const onFilterChange = (filters) => {
+  const filterNames = Object.keys(filters);
+  const filteredAdvertisements = [];
+
+  for (let i = 0; i < allAdvertisements.length; i++) {
+    let currentAdvertisement = allAdvertisements[i];
+
+    for (let j = 0; j < filterNames.length; j++) {
+      if (!currentAdvertisement) {
+        break;
+      }
+      const currentFilterName = filterNames[j];
+      const filterValue = filters[currentFilterName];
+      const offerValue = currentAdvertisement.offer[currentFilterName];
+
+      if (currentFilterName === 'features') {
+        for (let m = 0; m < filterValue.length; m++) {
+          if (!offerValue || !offerValue.includes(filterValue[m])) {
+            currentAdvertisement = null;
+          }
+        }
+      } else if (currentFilterName === 'price') {
+        if (filterValue.min && (offerValue < filterValue.min)
+          || filterValue.max && (offerValue > filterValue.max)) {
+          currentAdvertisement = null;
+        }
+      } else {
+        if (offerValue !== filterValue) {
+          currentAdvertisement = null;
+        }
+      }
+    }
+
+    if (currentAdvertisement) {
+      filteredAdvertisements.push(currentAdvertisement);
+    }
+  }
+
+  showMapResults(filteredAdvertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
+};
+
+export {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker, onFilterChange, showMapResults};

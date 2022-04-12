@@ -33,11 +33,13 @@ const getCardNode = (offer, author) => {
   const photoBlock = cardElement.querySelector('.popup__photos');
   const photoElement = cardElement.querySelector('.popup__photo');
 
-  offer.photos.forEach((photo) => {
-    const newPhotoElement = photoElement.cloneNode(true);
-    newPhotoElement.setAttribute('src', photo);
-    photoBlock.appendChild(newPhotoElement);
-  });
+  if (offer.photos) {
+    offer.photos.forEach((photo) => {
+      const newPhotoElement = photoElement.cloneNode(true);
+      newPhotoElement.setAttribute('src', photo);
+      photoBlock.appendChild(newPhotoElement);
+    });
+  }
   photoElement.classList.add('hidden');
 
   return cardElement;

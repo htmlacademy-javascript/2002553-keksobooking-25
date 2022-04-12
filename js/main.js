@@ -11,6 +11,10 @@ setUserFormSubmit(() => {
   document.querySelector('.ad-form').reset();
   showSuccessMessage();
   map.closePopup();
+  map.setView({
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO,
+  }, 10);
   mainPinMarker.setLatLng({
     lat: LAT_TOKYO,
     lng: LNG_TOKYO,
