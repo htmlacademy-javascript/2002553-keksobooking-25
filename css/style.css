@@ -1053,3 +1053,12 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.error-request {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffaa99;
+  height: 50px;
+  font-size: 26px;
+}

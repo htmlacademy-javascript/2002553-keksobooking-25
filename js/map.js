@@ -1,5 +1,8 @@
 import {setActiveState, setInactiveState} from './form.js';
-import {cards, getCardNode} from './template.js';
+import {getCardNode} from './template.js';
+import {getData} from './api.js';
+
+const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
 const LAT_TOKYO = 35.67969;
 const LNG_TOKYO = 139.76851;
@@ -9,6 +12,7 @@ setInactiveState();
 const map = L.map('map-canvas')
   .on('load', () => {
     setActiveState();
+
   })
   .setView({
     lat: LAT_TOKYO,
@@ -38,7 +42,6 @@ const mainPinMarker = L.marker(
     icon: mainPinIcon,
   },
 );
-
 mainPinMarker.addTo(map);
 
 const addressField = document.querySelector('.ad-form').querySelector('#address');
@@ -54,21 +57,30 @@ const simplePinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-cards.forEach(({offer, author}) => {
-  const {lat, lng} = offer.location;
-  const cardNode = getCardNode(offer, author);
+getData((advertisements) => {
+  const activeAdvertisiments = advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT);
 
-  const marker = L.marker({
-    lat,
-    lng
-  },
-  {
-    icon: simplePinIcon
+  activeAdvertisiments.forEach(({offer, author, location}) => {
+    const {lat, lng} = location;
+    const cardNode = getCardNode(offer, author);
+
+    const marker = L.marker({
+      lat,
+      lng
+    },
+    {
+      icon: simplePinIcon
+    });
+
+    marker
+      .addTo(map)
+      .bindPopup(cardNode);
+
+    marker.on('click', (evt) => {
+      const coordinates = evt.target.getLatLng();
+      addressField.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+    });
   });
-
-  marker
-    .addTo(map)
-    .bindPopup(cardNode);
 });
 
-
+export {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker};

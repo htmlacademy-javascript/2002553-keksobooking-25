@@ -1,4 +1,3 @@
-
 //Активное состояние
 const setActiveState = () => {
   const formElement = document.querySelector('.ad-form');
@@ -53,6 +52,5 @@ const setInactiveState = () => {
   });
 };
 
-export {setActiveState};
-export {setInactiveState};
+export {setActiveState, setInactiveState};
 
