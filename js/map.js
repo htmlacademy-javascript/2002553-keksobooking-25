@@ -106,42 +106,68 @@ getData((advertisements) => {
 });
 
 const onFilterChange = (filters) => {
-  const filterNames = Object.keys(filters);
-  const filteredAdvertisements = [];
+  const checkType = (type) => {
+    if (filters.type && type !== filters.type) {
+      return false;
+    }
 
-  for (let i = 0; i < allAdvertisements.length; i++) {
-    let currentAdvertisement = allAdvertisements[i];
+    return true;
+  };
 
-    for (let j = 0; j < filterNames.length; j++) {
-      if (!currentAdvertisement) {
-        break;
-      }
-      const currentFilterName = filterNames[j];
-      const filterValue = filters[currentFilterName];
-      const offerValue = currentAdvertisement.offer[currentFilterName];
+  const checkGuests = (guests) => {
+    if (filters.guests && guests !== filters.guests) {
+      return false;
+    }
 
-      if (currentFilterName === 'features') {
-        for (let m = 0; m < filterValue.length; m++) {
-          if (!offerValue || !offerValue.includes(filterValue[m])) {
-            currentAdvertisement = null;
-          }
-        }
-      } else if (currentFilterName === 'price') {
-        if (filterValue.min && (offerValue < filterValue.min)
-          || filterValue.max && (offerValue > filterValue.max)) {
-          currentAdvertisement = null;
-        }
-      } else {
-        if (offerValue !== filterValue) {
-          currentAdvertisement = null;
-        }
+    return true;
+  };
+
+  const checkRooms = (rooms) => {
+    if (filters.rooms && rooms !== filters.rooms) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const checkFeatures = (features) => {
+    if (filters.features.length && (!features || !features.length)) {
+      return false;
+    }
+
+    if (filters.features.length) {
+      const filteredFeatures = filters.features.filter((feature) => features.includes(feature));
+
+      if (filters.features.length !== filteredFeatures.length) {
+        return false;
       }
     }
 
-    if (currentAdvertisement) {
-      filteredAdvertisements.push(currentAdvertisement);
+    return true;
+  };
+
+  const checkPrice = (price) => {
+    if (filters.price) {
+      if (filters.price.min && (price < filters.price.min)
+      || filters.price.max && (price > filters.price.max)) {
+        return false;
+      }
     }
-  }
+
+    return true;
+  };
+
+  const filteredAdvertisements = allAdvertisements.filter(({ offer }) => {
+    if (!checkType(offer.type)
+      || !checkGuests(offer.guests)
+      || !checkRooms(offer.rooms)
+      || !checkFeatures(offer.features)
+      || !checkPrice(offer.price)) {
+      return false;
+    }
+
+    return true;
+  });
 
   showMapResults(filteredAdvertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
 };

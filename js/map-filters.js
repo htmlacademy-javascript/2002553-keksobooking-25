@@ -26,32 +26,59 @@ const filters = {
   features: []
 };
 
+const addTypeFilter = (name, type) => {
+  if (name !== 'type') {
+    return;
+  }
+
+  filters[name] = type;
+};
+
+const addFeaturesFilter = (name, feature) => {
+  if (name !== 'features') {
+    return;
+  }
+
+  if (filters.features.some((element) => element === feature)) {
+    filters.features = filters.features.filter((filterValue) => filterValue !== feature);
+  } else {
+    filters.features.push(feature);
+  }
+
+};
+
+const addPriceFilter = (name, price) => {
+  if (name !== 'price') {
+    return;
+  }
+
+  const priceFilter = PRICE_VALUES[price];
+  filters.price = priceFilter;
+};
+
+const addNumberFilter = (name, value) => {
+  if (!['guests', 'rooms'].includes(name)) {
+    return;
+  }
+
+  filters[name] = +value;
+};
+
 export const initializeFilters = () => {
   const filterForm = document.querySelector('.map__filters-container');
 
   const onChangeEvent = (evt) => {
     if (evt.target) {
       const { name, value } = evt.target;
+      const filterName = MAP_FILTER[name];
 
       if (value === 'any') {
-        delete filters[MAP_FILTER[name]];
+        delete filters[filterName];
       } else {
-        if (name === 'features') {
-          if (filters.features.some((element) => element === value)) {
-            filters.features = filters.features.filter((filterValue) => filterValue !== value);
-          } else {
-            filters.features.push(value);
-          }
-        } else {
-          if (['guests', 'rooms'].includes(MAP_FILTER[name])) {
-            filters[MAP_FILTER[name]] = +value;
-          } else if (MAP_FILTER[name] === 'price') {
-            const priceFilter = PRICE_VALUES[value];
-            filters[MAP_FILTER[name]] = priceFilter;
-          } else {
-            filters[MAP_FILTER[name]] = value;
-          }
-        }
+        addTypeFilter(filterName, value);
+        addFeaturesFilter(filterName, value);
+        addNumberFilter(filterName, value);
+        addPriceFilter(filterName, value);
       }
 
       onFilterChange(filters);
