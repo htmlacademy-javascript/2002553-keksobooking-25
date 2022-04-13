@@ -1,7 +1,7 @@
 import {setActiveState, unblockFilters, setInactiveState} from './form.js';
 import {getCardNode} from './template.js';
 import {getData} from './api.js';
-import {initializeFilters} from './map-filters.js';
+import {initializeFilters, isMatchFilters} from './map-filters.js';
 
 const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
@@ -105,64 +105,9 @@ getData((advertisements) => {
   showMapResults();
 });
 
-const checkType = (type, filters) => {
-  if (filters.type && type !== filters.type) {
-    return false;
-  }
-
-  return true;
-};
-
-const checkGuests = (guests, filters) => {
-  if (filters.guests && guests !== filters.guests) {
-    return false;
-  }
-
-  return true;
-};
-
-const checkRooms = (rooms, filters) => {
-  if (filters.rooms && rooms !== filters.rooms) {
-    return false;
-  }
-
-  return true;
-};
-
-const checkFeatures = (features, filters) => {
-  if (filters.features.length && (!features || !features.length)) {
-    return false;
-  }
-
-  if (filters.features.length) {
-    const filteredFeatures = filters.features.filter((feature) => features.includes(feature));
-
-    if (filters.features.length !== filteredFeatures.length) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-const checkPrice = (price, filters) => {
-  if (filters.price) {
-    if (filters.price.min && (price < filters.price.min)
-    || filters.price.max && (price > filters.price.max)) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-const onFilterChange = (filters) => {
+const onFilterChange = () => {
   const filteredAdvertisements = allAdvertisements.filter(({ offer }) => {
-    if (!checkType(offer.type, filters)
-      || !checkGuests(offer.guests, filters)
-      || !checkRooms(offer.rooms, filters)
-      || !checkFeatures(offer.features, filters)
-      || !checkPrice(offer.price, filters)) {
+    if (!isMatchFilters(offer)) {
       return false;
     }
 

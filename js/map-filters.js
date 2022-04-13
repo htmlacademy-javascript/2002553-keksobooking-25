@@ -26,6 +26,69 @@ const filters = {
   features: []
 };
 
+const isMatchFilters = (offer) => {
+  const checkType = (type) => {
+    if (filters.type && type !== filters.type) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const checkGuests = (guests) => {
+    if (filters.guests && guests !== filters.guests) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const checkRooms = (rooms) => {
+    if (filters.rooms && rooms !== filters.rooms) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const checkFeatures = (features) => {
+    if (filters.features.length && (!features || !features.length)) {
+      return false;
+    }
+
+    if (filters.features.length) {
+      const filteredFeatures = filters.features.filter((feature) => features.includes(feature));
+
+      if (filters.features.length !== filteredFeatures.length) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const checkPrice = (price) => {
+    if (filters.price) {
+      if (filters.price.min && (price < filters.price.min)
+      || filters.price.max && (price > filters.price.max)) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  if (!checkType(offer.type, filters)
+    || !checkGuests(offer.guests, filters)
+    || !checkRooms(offer.rooms, filters)
+    || !checkFeatures(offer.features, filters)
+    || !checkPrice(offer.price, filters)) {
+    return false;
+  }
+
+  return true;
+};
+
 const addTypeFilter = (name, type) => {
   if (name !== 'type') {
     return;
@@ -64,7 +127,7 @@ const addNumberFilter = (name, value) => {
   filters[name] = +value;
 };
 
-export const initializeFilters = () => {
+const initializeFilters = () => {
   const filterForm = document.querySelector('.map__filters-container');
 
   const onChangeEvent = (evt) => {
@@ -81,10 +144,12 @@ export const initializeFilters = () => {
         addPriceFilter(filterName, value);
       }
 
-      onFilterChange(filters);
+      onFilterChange();
     }
   };
 
   filterForm.addEventListener('change',   debounce(onChangeEvent, 500)
   );
 };
+
+export {initializeFilters, isMatchFilters};
