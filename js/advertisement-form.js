@@ -1,5 +1,5 @@
 import {sendData} from './api.js';
-import {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker} from './map.js';
+import {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker, showMapResults} from './map.js';
 
 const advertisementForm = document.querySelector('.ad-form');
 const pristine = new Pristine(advertisementForm, {
@@ -167,6 +167,12 @@ resetButton.addEventListener('click', () => {
     lat: LAT_TOKYO,
     lng: LNG_TOKYO,
   });
+  map.setView({
+    lat: LAT_TOKYO,
+    lng: LNG_TOKYO,
+  }, 10);
+
+  showMapResults();
 });
 
 

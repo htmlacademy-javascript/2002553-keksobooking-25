@@ -1,18 +1,22 @@
-import {setActiveState, setInactiveState} from './form.js';
+import {setActiveState, unblockFilters, setInactiveState} from './form.js';
 import {getCardNode} from './template.js';
 import {getData} from './api.js';
+import {initializeFilters, isMatchFilters} from './map-filters.js';
 
 const SIMILAR_ADVERTISEMENT_COUNT = 10;
 
 const LAT_TOKYO = 35.67969;
 const LNG_TOKYO = 139.76851;
 
+const mapMarkers = [];
+
+let allAdvertisements = [];
+
 setInactiveState();
 
 const map = L.map('map-canvas')
   .on('load', () => {
     setActiveState();
-
   })
   .setView({
     lat: LAT_TOKYO,
@@ -57,10 +61,18 @@ const simplePinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-getData((advertisements) => {
-  const activeAdvertisiments = advertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT);
+const removeSecondaryPins = () => {
+  for (let i = 0; i < mapMarkers.length; i++) {
+    map.removeLayer(mapMarkers[i]);
+  }
+};
 
-  activeAdvertisiments.forEach(({offer, author, location}) => {
+const showMapResults = (advertisements) => {
+  const selectedAdvertisements = advertisements || allAdvertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT);
+
+  removeSecondaryPins();
+
+  selectedAdvertisements.forEach(({offer, author, location}) => {
     const {lat, lng} = location;
     const cardNode = getCardNode(offer, author);
 
@@ -80,7 +92,29 @@ getData((advertisements) => {
       const coordinates = evt.target.getLatLng();
       addressField.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
     });
+
+    mapMarkers.push(marker);
   });
+};
+
+getData((advertisements) => {
+  allAdvertisements = advertisements;
+
+  unblockFilters();
+  initializeFilters();
+  showMapResults();
 });
 
-export {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker};
+const onFilterChange = () => {
+  const filteredAdvertisements = allAdvertisements.filter(({ offer }) => {
+    if (!isMatchFilters(offer)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  showMapResults(filteredAdvertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
+};
+
+export {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker, onFilterChange, showMapResults};

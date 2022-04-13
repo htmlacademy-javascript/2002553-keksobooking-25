@@ -8,8 +8,15 @@ function fillNodeTextContentOrHide(element, classname, content = [], template = 
     }
     targetElement.textContent = template ? template : content;
   }
-
 }
 
-export {fillNodeTextContentOrHide};
+function debounce(func, timeout = 300){
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
+export {fillNodeTextContentOrHide, debounce};
 

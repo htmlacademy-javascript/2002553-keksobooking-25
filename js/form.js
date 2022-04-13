@@ -10,7 +10,9 @@ const setActiveState = () => {
 
   const headerElement = document.querySelector('.ad-form-header');
   headerElement.removeAttribute('disabled');
+};
 
+const unblockFilters = () => {
   const mapFiltersElement = document.querySelector('.map__filters');
   mapFiltersElement.classList.remove('ad-form--disabled');
 
@@ -52,5 +54,5 @@ const setInactiveState = () => {
   });
 };
 
-export {setActiveState, setInactiveState};
+export {setActiveState, unblockFilters, setInactiveState};
 
