@@ -105,64 +105,64 @@ getData((advertisements) => {
   showMapResults();
 });
 
+const checkType = (type, filters) => {
+  if (filters.type && type !== filters.type) {
+    return false;
+  }
+
+  return true;
+};
+
+const checkGuests = (guests, filters) => {
+  if (filters.guests && guests !== filters.guests) {
+    return false;
+  }
+
+  return true;
+};
+
+const checkRooms = (rooms, filters) => {
+  if (filters.rooms && rooms !== filters.rooms) {
+    return false;
+  }
+
+  return true;
+};
+
+const checkFeatures = (features, filters) => {
+  if (filters.features.length && (!features || !features.length)) {
+    return false;
+  }
+
+  if (filters.features.length) {
+    const filteredFeatures = filters.features.filter((feature) => features.includes(feature));
+
+    if (filters.features.length !== filteredFeatures.length) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const checkPrice = (price, filters) => {
+  if (filters.price) {
+    if (filters.price.min && (price < filters.price.min)
+    || filters.price.max && (price > filters.price.max)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 const onFilterChange = (filters) => {
-  const checkType = (type) => {
-    if (filters.type && type !== filters.type) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const checkGuests = (guests) => {
-    if (filters.guests && guests !== filters.guests) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const checkRooms = (rooms) => {
-    if (filters.rooms && rooms !== filters.rooms) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const checkFeatures = (features) => {
-    if (filters.features.length && (!features || !features.length)) {
-      return false;
-    }
-
-    if (filters.features.length) {
-      const filteredFeatures = filters.features.filter((feature) => features.includes(feature));
-
-      if (filters.features.length !== filteredFeatures.length) {
-        return false;
-      }
-    }
-
-    return true;
-  };
-
-  const checkPrice = (price) => {
-    if (filters.price) {
-      if (filters.price.min && (price < filters.price.min)
-      || filters.price.max && (price > filters.price.max)) {
-        return false;
-      }
-    }
-
-    return true;
-  };
-
   const filteredAdvertisements = allAdvertisements.filter(({ offer }) => {
-    if (!checkType(offer.type)
-      || !checkGuests(offer.guests)
-      || !checkRooms(offer.rooms)
-      || !checkFeatures(offer.features)
-      || !checkPrice(offer.price)) {
+    if (!checkType(offer.type, filters)
+      || !checkGuests(offer.guests, filters)
+      || !checkRooms(offer.rooms, filters)
+      || !checkFeatures(offer.features, filters)
+      || !checkPrice(offer.price, filters)) {
       return false;
     }
 
