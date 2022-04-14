@@ -6,24 +6,28 @@ const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const photoChooser = document.querySelector('.ad-form__upload input');
 const photoPreview = document.querySelector('.ad-form__photo');
 
-avatarChooser.addEventListener('change', () => {
-  const file = avatarChooser.files[0];
+const checkIfValid = (element) => {
+  const file = element.files[0];
   const fileName = file.name.toLowerCase();
+  if (FILE_TYPES.some((it) => fileName.endsWith(it))) {
+    return file;
+  }
 
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  return null;
+};
 
-  if (matches) {
+avatarChooser.addEventListener('change', () => {
+  const file = checkIfValid(avatarChooser);
+
+  if (file) {
     avatarPreview.src = URL.createObjectURL(file);
   }
 });
 
 photoChooser.addEventListener('change', () => {
-  const file = photoChooser.files[0];
-  const fileName = file.name.toLowerCase();
+  const file = checkIfValid(photoChooser);
 
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
-
-  if (matches) {
+  if (file) {
     photoPreview.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
   }
 });
