@@ -1062,3 +1062,8 @@ fieldset {
   height: 50px;
   font-size: 26px;
 }
+
+.ad-form__photo {
+  background-repeat: no-repeat;
+  background-size: contain;
+}
