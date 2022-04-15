@@ -1,5 +1,6 @@
 import {sendData} from './api.js';
-import {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker, showMapResults} from './map.js';
+import {map, mainPinMarker, showMapResults} from './map.js';
+import {maxCapacity, maxCapacityErrorMessage, housingPrices, MAX_PRICE, START_SLIDER, LAT_TOKYO, LNG_TOKYO} from './data.js';
 
 const advertisementForm = document.querySelector('.ad-form');
 const pristine = new Pristine(advertisementForm, {
@@ -17,39 +18,10 @@ const submitButton = advertisementForm.querySelector('.ad-form__submit');
 const sliderElement = document.querySelector('.ad-form__slider');
 const valueElement = document.querySelector('#price');
 
-const maxCapacity = {
-  '1': ['1'],
-  '2': ['1', '2'],
-  '3': ['1', '2', '3'],
-  '100': ['0']
-};
-
-const maxCapacityErrorMessage = {
-  '1': 'for 1 guest',
-  '2': 'for 1-2 guests',
-  '3': 'for 1-3 guests',
-  '100': 'not for guests'
-};
-
-const housingPrices = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000
-};
-
-const MAX_PRICE = 100000;
-const START_SLIDER = 0;
-
 //валидация количества гостей и комнат
-function validateCapacity (value) {
-  return maxCapacity[roomNumberField.value].includes(value);
-}
+const validateCapacity = (value) => maxCapacity[roomNumberField.value].includes(value);
 
-function getCapacityErrorMessage () {
-  return `${maxCapacityErrorMessage[roomNumberField.value]}`;
-}
+const getCapacityErrorMessage = () => `${maxCapacityErrorMessage[roomNumberField.value]}`;
 
 pristine.addValidator(
   capacityField,
@@ -57,9 +29,9 @@ pristine.addValidator(
   getCapacityErrorMessage
 );
 
-function onRoomNumberChange () {
+const onRoomNumberChange = () => {
   pristine.validate(capacityField);
-}
+};
 
 roomNumberField.addEventListener('change', onRoomNumberChange);
 
@@ -106,13 +78,9 @@ timeoutField.addEventListener('change', (evt) => {
 });
 
 //плейсхолдер+минимальная цена от типа жилья
-function validateMinPrice (value) {
-  return housingPrices[typeField.value] <= value;
-}
+const validateMinPrice = (value) => housingPrices[typeField.value] <= value;
 
-function getMinPriceErrorMessage () {
-  return `min price is ${housingPrices[typeField.value]}`;
-}
+const getMinPriceErrorMessage = () => `min price is ${housingPrices[typeField.value]}`;
 
 pristine.addValidator(
   priceField,
