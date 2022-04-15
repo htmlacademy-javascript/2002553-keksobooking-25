@@ -1,4 +1,4 @@
-function fillNodeTextContentOrHide(element, classname, content = [], template = '') {
+const fillNodeTextContentOrHide = (element, classname, content = [], template = '') => {
   const targetElement = element.querySelector(classname);
 
   for (let i = 0; i < content.length; i++) {
@@ -8,15 +8,15 @@ function fillNodeTextContentOrHide(element, classname, content = [], template = 
     }
     targetElement.textContent = template ? template : content;
   }
-}
+};
 
-function debounce(func, timeout = 300){
+const debounce = (func, timeout = 300) => {
   let timer;
   return (...args) => {
     clearTimeout(timer);
     timer = setTimeout(() => { func.apply(this, args); }, timeout);
   };
-}
+};
 
 export {fillNodeTextContentOrHide, debounce};
 

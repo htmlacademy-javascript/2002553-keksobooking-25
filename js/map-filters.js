@@ -1,56 +1,16 @@
 import {onFilterChange} from './map.js';
 import {debounce} from './util.js';
-
-const MAP_FILTER = {
-  'housing-type': 'type',
-  'housing-price': 'price',
-  'housing-rooms': 'rooms',
-  'housing-guests': 'guests',
-  'features': 'features'
-};
-
-const PRICE_VALUES = {
-  'low': {
-    max: 10000
-  },
-  'middle': {
-    min: 10000,
-    max: 50000
-  },
-  'high': {
-    min: 50000
-  }
-};
+import {MAP_FILTER, PRICE_VALUES} from './data.js';
 
 const filters = {
+  type: null,
+  price: null,
+  rooms: null,
+  guests: null,
   features: []
 };
 
 const isMatchFilters = (offer) => {
-  const checkType = (type) => {
-    if (filters.type && type !== filters.type) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const checkGuests = (guests) => {
-    if (filters.guests && guests !== filters.guests) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const checkRooms = (rooms) => {
-    if (filters.rooms && rooms !== filters.rooms) {
-      return false;
-    }
-
-    return true;
-  };
-
   const checkFeatures = (features) => {
     if (filters.features.length && (!features || !features.length)) {
       return false;
@@ -78,9 +38,9 @@ const isMatchFilters = (offer) => {
     return true;
   };
 
-  if (!checkType(offer.type, filters)
-    || !checkGuests(offer.guests, filters)
-    || !checkRooms(offer.rooms, filters)
+  if ((filters.type && offer.type !== filters.type)
+    || (filters.guests && offer.guests !== filters.guests)
+    || (filters.rooms && offer.rooms !== filters.rooms)
     || !checkFeatures(offer.features, filters)
     || !checkPrice(offer.price, filters)) {
     return false;
@@ -89,42 +49,12 @@ const isMatchFilters = (offer) => {
   return true;
 };
 
-const addTypeFilter = (name, type) => {
-  if (name !== 'type') {
-    return;
-  }
-
-  filters[name] = type;
-};
-
-const addFeaturesFilter = (name, feature) => {
-  if (name !== 'features') {
-    return;
-  }
-
+const addFeaturesFilter = (feature) => {
   if (filters.features.some((element) => element === feature)) {
     filters.features = filters.features.filter((filterValue) => filterValue !== feature);
   } else {
     filters.features.push(feature);
   }
-
-};
-
-const addPriceFilter = (name, price) => {
-  if (name !== 'price') {
-    return;
-  }
-
-  const priceFilter = PRICE_VALUES[price];
-  filters.price = priceFilter;
-};
-
-const addNumberFilter = (name, value) => {
-  if (!['guests', 'rooms'].includes(name)) {
-    return;
-  }
-
-  filters[name] = +value;
 };
 
 const initializeFilters = () => {
@@ -136,12 +66,32 @@ const initializeFilters = () => {
       const filterName = MAP_FILTER[name];
 
       if (value === 'any') {
-        delete filters[filterName];
+        filters[filterName] = null;
       } else {
-        addTypeFilter(filterName, value);
-        addFeaturesFilter(filterName, value);
-        addNumberFilter(filterName, value);
-        addPriceFilter(filterName, value);
+        switch (filterName) {
+          case 'type':
+            filters.type = value;
+            break;
+
+          case 'guests':
+            filters.guests = +value;
+            break;
+
+          case 'rooms':
+            filters.rooms = +value;
+            break;
+
+          case 'price':
+            filters.price = PRICE_VALUES[value];
+            break;
+
+          case 'features':
+            addFeaturesFilter(value);
+            break;
+
+          default:
+            break;
+        }
       }
 
       onFilterChange();

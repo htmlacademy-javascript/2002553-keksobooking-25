@@ -1,35 +1,3 @@
-const FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner',
-];
-
-const PHOTOS = [
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-
-const TIMES = ['12:00', '13:00', '14:00'];
-
-const IMAGE_NUMBERS = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10',
-];
-
 const PROPERTY_NAMES = {
   'flat' : 'Квартира',
   'bungalow' : 'Бунгало',
@@ -47,14 +15,73 @@ const FEATURES_ICONS = {
   'conditioner' : 'popup__feature--conditioner',
 };
 
-const LATITUDE_FROM = 35.65;
-const LATITUDE_UNTIL = 35.7;
-const LONGITUDE_FROM = 139.7;
-const LONGITUDE_UNTIL = 139.8;
-const ROOMS_MAX_COUNT = 10;
-const GUESTS_MAX_COUNT = 30;
-const PRICE_MAX = 10000000;
+const maxCapacity = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
 
-export {FEATURES, PHOTOS, TYPES, TIMES, IMAGE_NUMBERS, LATITUDE_FROM, LATITUDE_UNTIL, LONGITUDE_FROM, PRICE_MAX, LONGITUDE_UNTIL, ROOMS_MAX_COUNT, GUESTS_MAX_COUNT};
-export {PROPERTY_NAMES, FEATURES_ICONS};
+const maxCapacityErrorMessage = {
+  '1': 'for 1 guest',
+  '2': 'for 1-2 guests',
+  '3': 'for 1-3 guests',
+  '100': 'not for guests'
+};
+
+const housingPrices = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+
+const MAX_PRICE = 100000;
+const START_SLIDER = 0;
+const MESSAGE_ON_FAIL = 'Не удалось отправить форму. Попробуйте ещё раз';
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+const MAP_FILTER = {
+  'housing-type': 'type',
+  'housing-price': 'price',
+  'housing-rooms': 'rooms',
+  'housing-guests': 'guests',
+  'features': 'features'
+};
+
+const PRICE_VALUES = {
+  'low': {
+    max: 10000
+  },
+  'middle': {
+    min: 10000,
+    max: 50000
+  },
+  'high': {
+    min: 50000
+  }
+};
+
+const SIMILAR_ADVERTISEMENT_COUNT = 10;
+const LAT_TOKYO = 35.67969;
+const LNG_TOKYO = 139.76851;
+
+export {
+  PROPERTY_NAMES,
+  FEATURES_ICONS,
+  MESSAGE_ON_FAIL,
+  FILE_TYPES,
+  MAP_FILTER,
+  PRICE_VALUES,
+  LNG_TOKYO,
+  LAT_TOKYO,
+  SIMILAR_ADVERTISEMENT_COUNT,
+  maxCapacity,
+  maxCapacityErrorMessage,
+  housingPrices,
+  MAX_PRICE,
+  START_SLIDER
+};
+
 

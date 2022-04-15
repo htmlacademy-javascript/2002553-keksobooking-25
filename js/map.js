@@ -2,11 +2,8 @@ import {setActiveState, unblockFilters, setInactiveState} from './form.js';
 import {getCardNode} from './template.js';
 import {getData} from './api.js';
 import {initializeFilters, isMatchFilters} from './map-filters.js';
+import {LNG_TOKYO, LAT_TOKYO, SIMILAR_ADVERTISEMENT_COUNT} from './data.js';
 
-const SIMILAR_ADVERTISEMENT_COUNT = 10;
-
-const LAT_TOKYO = 35.67969;
-const LNG_TOKYO = 139.76851;
 
 const mapMarkers = [];
 
@@ -117,4 +114,4 @@ const onFilterChange = () => {
   showMapResults(filteredAdvertisements.slice(0, SIMILAR_ADVERTISEMENT_COUNT));
 };
 
-export {map, LAT_TOKYO, LNG_TOKYO, mainPinMarker, onFilterChange, showMapResults};
+export {map, mainPinMarker, onFilterChange, showMapResults};
