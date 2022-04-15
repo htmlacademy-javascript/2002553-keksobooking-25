@@ -6,31 +6,35 @@ const errorElement = errorTemplate.cloneNode(true);
 
 const errorButtonlClose = errorElement.querySelector('.error__button');
 
-const onEscClickSuccess = (evt) => {
+function onEscClickSuccess (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     successElement.classList.add('hidden');
     document.removeEventListener('keydown', onEscClickSuccess);
+    document.removeEventListener('click', onOuterClickSuccess);
   }
-};
+}
 
-const onEscClickFail = (evt) => {
+function onEscClickFail (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     errorElement.classList.add('hidden');
     document.removeEventListener('keydown', onEscClickFail);
+    document.removeEventListener('click', onOuterClickFail);
   }
-};
+}
 
-const onOuterClickSuccess = () => {
+function onOuterClickSuccess () {
   successElement.classList.add('hidden');
   document.removeEventListener('click', onOuterClickSuccess);
-};
+  document.removeEventListener('keydown', onEscClickSuccess);
+}
 
-const onOuterClickFail = () => {
+function onOuterClickFail () {
   errorElement.classList.add('hidden');
   document.removeEventListener('click', onOuterClickFail);
-};
+  document.removeEventListener('keydown', onEscClickFail);
+}
 
 const onErrorButtonClick = () => {
   errorElement.classList.add('hidden');

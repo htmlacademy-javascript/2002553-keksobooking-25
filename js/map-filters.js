@@ -1,5 +1,5 @@
 import {onFilterChange} from './map.js';
-import {debounce} from './util.js';
+import {debounce, isNumber} from './util.js';
 import {MAP_FILTER, PRICE_VALUES} from './data.js';
 
 const filters = {
@@ -10,44 +10,64 @@ const filters = {
   features: []
 };
 
+// const isMatchFilters = (offer) => {
+//   const checkFeatures = (features) => {
+//     if (filters.features.length && (!features || !features.length)) {
+//       return false;
+//     }
+
+//     if (filters.features.length) {
+//       const filteredFeatures = filters.features.filter((feature) => features.includes(feature));
+
+//       if (filters.features.length !== filteredFeatures.length) {
+//         return false;
+//       }
+//     }
+
+//     return true;
+//   };
+
+//   const checkPrice = (price) => {
+//     if (filters.price) {
+//       if (filters.price.min && (price < filters.price.min)
+//       || filters.price.max && (price > filters.price.max)) {
+//         return false;
+//       }
+//     }
+
+//     return true;
+//   };
+
+
+//   if ((filters.type && offer.type !== filters.type)
+//     || (filters.guests !== null && offer.guests !== filters.guests)
+//     || (filters.rooms !== null && offer.rooms !== filters.rooms)
+//     || !checkFeatures(offer.features, filters)
+//     || !checkPrice(offer.price, filters)) {
+//     return false;
+//   }
+
+//   return true;
+// };
+
 const isMatchFilters = (offer) => {
-  const checkFeatures = (features) => {
-    if (filters.features.length && (!features || !features.length)) {
-      return false;
-    }
+  const isFeaturesValidForFilter =
+  offer.features &&
+  filters.features.filter((feature) => offer.features.includes(feature))
+    .length === filters.features.length;
 
-    if (filters.features.length) {
-      const filteredFeatures = filters.features.filter((feature) => features.includes(feature));
+  const isPriceValidForFilter =
+  filters.price &&
+  ((!filters.price.min || offer.price > filters.price.min) &&
+    (!filters.price.max || offer.price < filters.price.max));
 
-      if (filters.features.length !== filteredFeatures.length) {
-        return false;
-      }
-    }
-
-    return true;
-  };
-
-  const checkPrice = (price) => {
-    if (filters.price) {
-      if (filters.price.min && (price < filters.price.min)
-      || filters.price.max && (price > filters.price.max)) {
-        return false;
-      }
-    }
-
-    return true;
-  };
-
-
-  if ((filters.type && offer.type !== filters.type)
-    || (filters.guests !== null && offer.guests !== filters.guests)
-    || (filters.rooms !== null && offer.rooms !== filters.rooms)
-    || !checkFeatures(offer.features, filters)
-    || !checkPrice(offer.price, filters)) {
-    return false;
-  }
-
-  return true;
+  return (
+    (!filters.type || offer.type === filters.type) &&
+    ((!filters.guests && !isNumber(filters.guests))  || offer.guests === filters.guests) &&
+    ((!filters.rooms && !isNumber(filters.rooms)) || offer.rooms === filters.rooms) &&
+    (!filters.features.length || isFeaturesValidForFilter) &&
+    (!filters.price || isPriceValidForFilter)
+  );
 };
 
 const addFeaturesFilter = (feature) => {

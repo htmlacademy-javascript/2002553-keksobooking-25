@@ -18,5 +18,7 @@ const debounce = (func, timeout = 300) => {
   };
 };
 
-export {fillNodeTextContentOrHide, debounce};
+const isNumber = (value) => typeof value === 'number';
+
+export {fillNodeTextContentOrHide, debounce, isNumber};
 
