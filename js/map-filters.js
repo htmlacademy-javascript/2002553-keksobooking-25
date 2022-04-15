@@ -38,9 +38,10 @@ const isMatchFilters = (offer) => {
     return true;
   };
 
+
   if ((filters.type && offer.type !== filters.type)
-    || (filters.guests && offer.guests !== filters.guests)
-    || (filters.rooms && offer.rooms !== filters.rooms)
+    || (filters.guests !== null && offer.guests !== filters.guests)
+    || (filters.rooms !== null && offer.rooms !== filters.rooms)
     || !checkFeatures(offer.features, filters)
     || !checkPrice(offer.price, filters)) {
     return false;
